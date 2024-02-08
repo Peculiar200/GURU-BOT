@@ -134,19 +134,19 @@ export async function handler(chatUpdate) {
                 if (!("antiLink" in chat)) chat.antiLink = false
                 if (!("antiSticker" in chat)) chat.antiSticker = false
                 if (!("antiToxic" in chat)) chat.antiToxic = false
-                if (!("detect" in chat)) chat.detect = false
+                if (!("detect" in chat)) chat.detect = true
                 if (!("getmsg" in chat)) chat.getmsg = true
                 if (!("isBanned" in chat)) chat.isBanned = false
                 if (!("nsfw" in chat)) chat.nsfw = false
                 if (!("sBye" in chat)) chat.sBye = ""
-                if (!("sDemote" in chat)) chat.sDemote = ""
+                if (!("sDemote" in chat)) chat.sDemote = "true"
                 if (!("simi" in chat)) chat.simi = false
-                if (!("sPromote" in chat)) chat.sPromote = ""
-                if (!("sWelcome" in chat)) chat.sWelcome = ""
+                if (!("sPromote" in chat)) chat.sPromote = "true"
+                if (!("sWelcome" in chat)) chat.sWelcome = "true"
                 if (!("useDocument" in chat)) chat.useDocument = false
-                if (!("viewOnce" in chat)) chat.viewOnce = false
+                if (!("viewOnce" in chat)) chat.viewOnce = true
                 if (!("viewStory" in chat)) chat.viewStory = false
-                if (!("welcome" in chat)) chat.welcome = false
+                if (!("welcome" in chat)) chat.welcome = true
                 if (!("chatbot" in chat)) chat.chatbot = false
                 if (!isNumber(chat.expired)) chat.expired = 0
             } else
@@ -155,13 +155,13 @@ export async function handler(chatUpdate) {
                     antiLink: false,
                     antiSticker: false,
                     antiToxic: false,
-                    detect: false,
+                    detect: true,
                     expired: 0,
                     getmsg: true,
                     isBanned: false,
                     nsfw: false, 
-                    sBye: "",
-                    sDemote: "",
+                    sBye: "true",
+                    sDemote: "true",
                     simi: false,
                     sPromote: "",
                     sticker: false,
@@ -169,15 +169,15 @@ export async function handler(chatUpdate) {
                     useDocument: false,
                     viewOnce: false,
                     viewStory: false,
-                    welcome: false,
-                    chatbot: false
+                    welcome: true,
+                    chatbot: true
                 }
           
                 
             let settings = global.db.data.settings[this.user.jid]
             if (typeof settings !== "object") global.db.data.settings[this.user.jid] = {}
             if (settings) {
-                if (!("self" in settings)) settings.self = false
+                if (!("self" in settings)) settings.self = true
                 if (!("autoread" in settings)) settings.autoread = false
                 if (!("restrict" in settings)) settings.restrict = false
                 if (!("restartDB" in settings)) settings.restartDB = 0
@@ -235,8 +235,8 @@ export async function handler(chatUpdate) {
         const user = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {} // User Data
         const bot = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) == conn.user.jid) : {}) || {} // Your Data
         const isRAdmin = user?.admin == "superadmin" || false
-        const isAdmin = isRAdmin || user?.admin == "admin" || false // Is User Admin?
-        const isBotAdmin = bot?.admin || false // Are you Admin?
+        const isAdmin = isRAdmin || user?.admin == "admin" || true // Is User Admin?
+        const isBotAdmin = bot?.admin || true // Are you Admin?
 
         const ___dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), "./plugins")
         for (let name in global.plugins) {
@@ -726,7 +726,7 @@ export async function deleteUpdate(message) {
     try {
         
        
-      if (typeof process.env.antidelete === 'undefined' || process.env.antidelete.toLowerCase() === 'false') return;
+      if (typeof process.env.antidelete === 'undefined' || process.env.antidelete.toLowerCase() === 'true') return;
 
 
         const {
